@@ -30,27 +30,25 @@ public class d1p2 {
                 leftint = Integer.parseInt(parts[0]);
                 rightint = Integer.parseInt(parts[1]); 
 
-                // 3. below
-                if (leftmap.containsKey(leftint)) {
-                    leftmap.put(leftint, leftmap.get(leftint) + 1);
-                } else {
-                    leftmap.put(leftint, 1);
-                }
+                // 3. below, another way is using merge and a method reference for sum
+                    leftmap.merge(leftint, 1, Integer::sum);
+                    rightmap.merge(rightint, 1, Integer::sum);
+                // if (leftmap.containsKey(leftint)) {
+                //     leftmap.put(leftint, leftmap.get(leftint) + 1);
+                // } else {
+                //     leftmap.put(leftint, 1);
+                // }
 
-                if (rightmap.containsKey(rightint)) {
-                    rightmap.put(rightint, rightmap.get(rightint) + 1);
-                } else {
-                    rightmap.put(rightint, 1);
-                }
+                // if (rightmap.containsKey(rightint)) {
+                //     rightmap.put(rightint, rightmap.get(rightint) + 1);
+                // } else {
+                //     rightmap.put(rightint, 1);
+                // }
 
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        // System.out.println(leftmap);
-        // System.out.println();
-        // System.out.println(rightmap);
 
         // 4 & 5. below
         for (int key : leftmap.keySet()) {
@@ -72,10 +70,9 @@ public class d1p2 {
         int similarity = 0;
 
         long starttime = System.nanoTime() / 1000;
-
         similarity = liststyle(similarity);
-
         long endtime = System.nanoTime() / 1000;
+
         System.out.println("Total distance is " + similarity);
         System.out.println("Total running time: " + (endtime - starttime) + " microseconds");
     }
