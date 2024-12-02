@@ -16,7 +16,7 @@ import java.util.HashMap;
 public class d1p2 {
     static String filename = "data/d1.txt";
 
-    static int liststyle(int similarity) {
+    static int mapstyle(int similarity) {
         Map<Integer, Integer> leftmap = new HashMap<>();
         Map<Integer, Integer> rightmap = new HashMap<>();
         int leftint, rightint = 0;
@@ -70,7 +70,7 @@ public class d1p2 {
         int similarity = 0;
 
         long starttime = System.nanoTime() / 1000;
-        similarity = liststyle(similarity);
+        similarity = mapstyle(similarity);
         long endtime = System.nanoTime() / 1000;
 
         System.out.println("Total distance is " + similarity);
