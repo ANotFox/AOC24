@@ -2,7 +2,7 @@
  * 2. Create a matrix for this
  * 3. For every X, look for M A S horizontally, vertically, downwards, diagonally, etc
  * 4. If found, add to result
- * 
+ * TODO: Optimise code and cleanup the try/catch abuse
  */
 
 import java.io.BufferedReader;
