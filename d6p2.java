@@ -13,17 +13,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-public class d6p2ex {
+public class d6p2 {
     static String filename = "data/d6.txt";
     static int result = 0;
     static char[][] map;
 
-    static int x = 0;
-    static int y = 0;
     static int guardx;
     static int guardy;
 
-    static int slowflag = 0;
+    static int doneonce = 0;
 
     public static void main(String[] args) {
         List<String> inputlines = new ArrayList<>();
@@ -36,8 +34,6 @@ public class d6p2ex {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        // System.out.println(inputlines);
 
         long starttime = System.nanoTime() / 1000;
         parsetoarray(inputlines);
@@ -69,102 +65,82 @@ public class d6p2ex {
         }
 
         guardmovementmark(map);
-        slowflag = 1;
+        doneonce = 1;
 
     }
 
     static void guardmovementmark(char[][] map) {
-        x = guardx;
-        y = guardy;
+        int x = guardx;
+        int y = guardy;
         char direction = 'U';
         Set<String> seen = new HashSet<>();
 
         try {
             int loop = -1;
             while (loop < 1) {
-                // if (slowflag == 1) {
+                // if (doneonce == 1) {
                 // TimeUnit.MILLISECONDS.sleep(250);
                 // // mapprinter(map);
                 // }
-                // System.out.println("guard pos is " + x + " " + y);
+                if (doneonce == 0) {
+                    map[x][y] = 'X';
+                }
+                
                 switch (direction) {
                     case 'L':
-                        while (true) {
-                            map[x][y] = 'X';
-                            // printer(map, x, y, direction);
                             if (map[x][y - 1] == '#' || map[x][y - 1] == 'O') {
                                 direction = 'U';
                                 if (seen.contains(x + " " + y + " " + direction)) {
                                     loop++;
-                                    break;
                                 }
-                                seen.add(x + " " + y + " " + direction);
-                                // if (map[x][y - 1] == 'O') {loop++;}
-                                break;
+                                else {
+                                    seen.add(x + " " + y + " " + direction);
+                                }
                             } else {
                                 y--;
                             }
-
-                        }
                         break;
 
                     case 'R':
-                        while (true) {
-                            map[x][y] = 'X';
-                            // printer(map, x, y, direction);
                             if (map[x][y + 1] == '#' || map[x][y + 1] == 'O') {
                                 direction = 'D';
                                 if (seen.contains(x + " " + y + " " + direction)) {
                                     loop++;
-                                    break;
                                 }
-                                seen.add(x + " " + y + " " + direction);
-                                // if (map[x][y + 1] == 'O') {loop++;}
-                                break;
+                                else {
+                                    seen.add(x + " " + y + " " + direction);
+                                }
                             } else {
                                 y++;
                             }
-
-                        }
                         break;
 
                     case 'U':
-                        while (true) {
-                            map[x][y] = 'X';
-                            // printer(map, x, y, direction);
                             if (map[x - 1][y] == '#' || map[x - 1][y] == 'O') {
                                 direction = 'R';
                                 if (seen.contains(x + " " + y + " " + direction)) {
                                     loop++;
-                                    break;
                                 }
-                                // if (map[x - 1][y] == 'O') {loop++;}
-                                break;
+                                else {
+                                    seen.add(x + " " + y + " " + direction);
+                                }
                             } else {
                                 x--;
                             }
-
-                        }
-
                         break;
 
                     case 'D':
-                        while (true) {
-                            map[x][y] = 'X';
-                            // printer(map, x, y, direction);
                             if (map[x + 1][y] == '#' || map[x + 1][y] == 'O') {
                                 direction = 'L';
                                 if (seen.contains(x + " " + y + " " + direction)) {
                                     loop++;
-                                    break;
                                 }
-                                // if (map[x + 1][y] == 'O') {loop++;}
-                                break;
+                                else {
+                                    seen.add(x + " " + y + " " + direction);
+                                }
                             } else {
                                 x++;
                             }
-
-                        }
                         break;
 
                     default:
@@ -189,7 +165,7 @@ public class d6p2ex {
 
     static void bruteforce() {
         for (int k = 0; k < map.length; k++) {
-            for (int l = 00; l < map[0].length; l++) {
+            for (int l = 0; l < map[0].length; l++) {
                 if (map[k][l] == 'X') {
                     map[k][l] = 'O';
                     // System.out.println("Currently at " + k + " " + l);
@@ -201,24 +177,24 @@ public class d6p2ex {
         }
     }
 
-    static void printer(char[][] map, int x, int y, char direction) {
-        System.out.println("Current direction is " + direction);
-        for (char[] cs : map) {
-            for (char c : cs) {
-                System.out.printf(c + " ");
-            }
-            System.out.println("\n");
-        }
-        System.out.println("\n");
-    }
+    // static void printer(char[][] map, int x, int y, char direction) {
+    //     System.out.println("Current direction is " + direction);
+    //     for (char[] cs : map) {
+    //         for (char c : cs) {
+    //             System.out.printf(c + " ");
+    //         }
+    //         System.out.println("\n");
+    //     }
+    //     System.out.println("\n");
+    // }
 
-    static void mapprinter(char[][] map) {
-        for (char[] cs : map) {
-            for (char c : cs) {
-                System.out.printf(c + "");
-            }
-            System.out.println("\n");
-        }
-        System.out.println("\n");
-    }
+    // static void mapprinter(char[][] map) {
+    //     for (char[] cs : map) {
+    //         for (char c : cs) {
+    //             System.out.printf(c + "");
+    //         }
+    //         System.out.println("\n");
+    //     }
+    //     System.out.println("\n");
+    // }
 }
