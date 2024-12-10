@@ -1,7 +1,7 @@
 /* Recursion
  * f(result, currenttotal, firstindex)
  * if currenttotal < result {only then continue with below}
- * currenttotal = currenttotal * firstindex
+ * currenttotal = currenttotal * firstzindex
  *      if ==result, answer +=  result
  *          else if > result, stopflag = true
  *  else f(result, currenttotal, firstindex++)
