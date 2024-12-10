@@ -7,9 +7,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-public class d8p1 {
+public class d8p2 {
     static String filename = "data/d8.txt";
     static int result = 0;
 
@@ -58,7 +60,12 @@ public class d8p1 {
          */ 
         
         HashMap<Character, List<Integer[]>> ants = new HashMap<>();
-        char[][] antipodematrix = matrix.clone();
+        char[][] antipodematrix = new char[matrix.length][matrix[0].length];
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                antipodematrix[i][j] = '.';
+            }
+        }
 
         for (int i  = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {
@@ -78,17 +85,17 @@ public class d8p1 {
 
         // printmap(ants);
 
-        antipodes(ants, antipodematrix);
+        antipodes(ants, antipodematrix, matrix);
         // printarr(matrix);
     }
     
-    static void antipodes(HashMap<Character, List<Integer[]>> ants, char[][] antipodematrix) {
+    static void antipodes(HashMap<Character, List<Integer[]>> ants, char[][] antipodematrix, char[][] matrix) {
         int[] dist = new int[2];
         int x, y;
         List<Integer[]> allpositions = new ArrayList<>();
+        Set<Integer[]> resultset = new HashSet<>();
         
         ants.remove('.');
-        
 
         for (Character key : ants.keySet()) {
             // System.out.print("for " + key + "    ");
@@ -103,17 +110,25 @@ public class d8p1 {
                     dist[1] = (allpositions.get(j)[1] - y);
 
                     try {
-                        antipodematrix[x + 2*dist[0]][y + 2*dist[1]] = '#';
+                        for (int k = 2; k > 0; k++) {
+                            antipodematrix[x + k*dist[0]][y + k*dist[1]] = '#';
+                            resultset.add(new Integer[]{x + k*dist[0], y + k*dist[1]});
+                        }
                     } catch (Exception e) {}
 
                     try {
-                        antipodematrix[x - dist[0]][y - dist[1]] = '#';
+                        for (int k = 1; k > 0; k++) {
+                            antipodematrix[x - k*dist[0]][y - k*dist[1]] = '#';
+                            resultset.add(new Integer[]{x - k*dist[0], y - k*dist[1]});
+                        }
                     } catch (Exception e) {}
-                    
                 }
+                antipodematrix[x][y] = '#';
             }
             // System.out.println();
+            
         }
+        // printarr(matrix);
         // printarr(antipodematrix);
 
         for (int i = 0; i < antipodematrix.length; i++) {
@@ -123,6 +138,8 @@ public class d8p1 {
                 }
             }
         }
+
+        System.out.println("Wrong Resultset : " + resultset.size());
     }
 
     static void printarr(char[][] matrix) {
